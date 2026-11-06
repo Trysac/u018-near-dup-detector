@@ -53,11 +53,9 @@ class MinHasher:
         if isinstance(items, str | bytes):
             raise DedupError("invalid_argument", "items must be an iterable of strings")
         hashes: set[int] = set()
-        count = 0
-        for item in items:
+        for count, item in enumerate(items, start=1):
             if not isinstance(item, str):
                 raise DedupError("invalid_argument", "every item must be a string")
-            count += 1
             if count > MAX_ITEMS:
                 raise DedupError("input_too_large", f"more than {MAX_ITEMS} items")
             hashes.add(hash64(item))

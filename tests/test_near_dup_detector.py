@@ -309,7 +309,7 @@ def test_lsh_invalid_ids() -> None:
 def test_simhash_acceptance() -> None:
     assert simhash(["a", "b", "c"]) == 0x3F4E074D61C27A04
     a = [f"w{i}" for i in range(50)]
-    b = a[:-1] + ["x"]
+    b = [*a[:-1], "x"]
     c = [f"z{i}" for i in range(50)]
     assert (simhash(a) ^ simhash(b)).bit_count() == 5
     assert (simhash(a) ^ simhash(c)).bit_count() == 34

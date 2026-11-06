@@ -155,7 +155,9 @@ def _link_simhash(
     # Pigeonhole: fingerprints within max_hamming bits agree on at least one of max_hamming + 1
     # blocks, so equal-block buckets contain every true match.
     blocks = max_hamming + 1
-    spans = [(b * _SIMHASH_BITS // blocks, (b + 1) * _SIMHASH_BITS // blocks) for b in range(blocks)]
+    spans = [
+        (b * _SIMHASH_BITS // blocks, (b + 1) * _SIMHASH_BITS // blocks) for b in range(blocks)
+    ]
     tables: list[dict[int, list[str]]] = [{} for _ in spans]
     fingerprints: dict[str, int] = {}
     for doc_id, items in entries:
