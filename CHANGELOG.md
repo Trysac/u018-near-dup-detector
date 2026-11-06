@@ -9,4 +9,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Add near-duplicate detection: `shingles`, process-stable `MinHasher`, `LSHIndex`, `simhash`, `find_duplicates` with verified pairs and deterministic `DuplicateCluster` results, and the typed `DedupError`.
 - Initial project structure from the factory utility template.
