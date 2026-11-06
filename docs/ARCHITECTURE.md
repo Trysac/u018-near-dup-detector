@@ -2,27 +2,24 @@
 
 ## Purpose
 
-`trysac-near-dup-detector` is a small, dependency-free Python library: Detect near-duplicate documents with process-stable MinHash and LSH banding plus 64-bit SimHash, verified candidate pairs and deterministic clusters
+`trysac-near-dup-detector` is a small, dependency-free Python library that detects near-duplicate documents with process-stable MinHash and LSH banding plus 64-bit SimHash, verified candidate pairs and deterministic clusters.
 
 ## Shape
 
 ```text
 caller code --> near_dup_detector (public API in __init__.py)
                     |
-                    +-- pure functions, no I/O, no global state
+                    +-- pure functions and classes, no I/O, no global state
 ```
 
-- **Public API**: the names listed in `__all__` of `src/near_dup_detector/__init__.py`. Anything else is
-  internal and may change without a major version.
-- **Errors**: invalid input raises built-in exceptions (`ValueError`, `TypeError`) with a clear
-  message; the library never prints or exits.
-- **Side effects**: none. If a feature needs I/O, isolate it in its own module behind a small
-  interface and record the choice in an ADR.
+- **Modules**: `shingling.py` (normalization, shingles), `_hashing.py` (BLAKE2b 64-bit hash), `minhash.py` (MinHasher), `lsh.py` (LSHIndex), `fingerprint.py` (simhash), `dedup.py` (find_duplicates, union-find clustering), `errors.py` (DedupError), `_validate.py` (argument checks).
+- **Public API**: the names listed in `__all__` of `src/near_dup_detector/__init__.py`. Anything else is internal.
+- **Errors**: invalid input raises `DedupError`, a `ValueError` subclass with a stable `code`.
+- **Logging**: a module logger with a `NullHandler`; the library never configures logging and never logs input text.
 
 ## Quality contract
 
-`scripts/check.py` is the single definition of the gates; `fabrica.json` tells the factory and CI
-how to run it. See [TESTING.md](TESTING.md).
+`scripts/check.py` is the single definition of the gates; `fabrica.json` tells the factory and CI how to run it. See [TESTING.md](TESTING.md).
 
 ## Decisions
 
