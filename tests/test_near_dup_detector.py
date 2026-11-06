@@ -47,10 +47,9 @@ def raises_code(code: str, call: Callable[[], object]) -> None:
 def test_acceptance_literals_verbatim() -> None:
     """Acceptance statements, quoted verbatim.
 
-    simhash(['a', 'b', 'c']) == 0x3f4e074d61c27a04; with A of 50 words w0..w49,
-    B = A with last word replaced by 'x' and C of 50 words z0..z49.
-    Duplicates of t found: one cluster ('a', 'b'), representative 'a', similarity 1.0.
-    """
+    simhash(['a', 'b', 'c']) == 0x3f4e074d61c27a04; with A = [f'w{i}' for i in range(50)], B = A[:-1] + ['x'] and C = [f'z{i}' for i in range(50)], (simhash(A) ^ simhash(B)).bit_count() == 5
+    find_duplicates({'b': t, 'a': t, 'c': t2, 'e': '', 'f': ''}) == [DuplicateCluster(ids=('a', 'b'), representative='a', min_similarity=1.0)]
+    """  # noqa: E501
     assert simhash(["a", "b", "c"]) == 0x3F4E074D61C27A04
     a = [f"w{i}" for i in range(50)]
     b = [*a[:-1], "x"]
